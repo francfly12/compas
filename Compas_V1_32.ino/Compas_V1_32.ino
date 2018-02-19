@@ -35,7 +35,7 @@ int affdegres, affpix;  // utilise pour afficher les barres tous les dix degres
 void setup(void) {
 int bar =0;       // utilise pour compter l affichage des 7 barres tous les 10 degres
 
- // seulement pour des tests  // 
+ // seulement pour des tests sur la console serie, on peut suprimer les println en utilisation reelle avec l'Oled// 
   Serial.begin(9600);
       Serial.println("Test du compas"); Serial.println("");
      // Initialise the sensor   
@@ -61,7 +61,7 @@ void loop(void) {
 //      float Pi = 3.14159;      
       // Calculate the angle of the vector y,x
       float cap = (atan2(event.magnetic.y,-event.magnetic.x) * 180) / Pi;
-      // ceci depend du position du capteur, si incorrect, essayer des signes - devant event    
+      // ceci depend de la position du capteur, si incorrect, essayer des signes - devant event    
       // Normalize to 0-360
       if (cap < 0)
       {
@@ -71,7 +71,7 @@ void loop(void) {
 oldcap=newcap;    //   lissage des nouvelles valeurs
 newcap=cap;
 if (((newcap-oldcap)>2)or ((oldcap-newcap)>2)) {newcap=cap;oldcap=cap; } //  pour verif // pas de lissage autour de 0 et 360 et aux grandes amplitudes
-newcap= oldcap +((newcap-oldcap)/5);
+newcap= oldcap +((newcap-oldcap)/5);  // lissage de 1/5 ieme de la nouvelle valeur 
 
  //      Serial.print("Compass cap: ");  //  pou verif
 //      Serial.println(cap);
@@ -83,7 +83,7 @@ newcap= oldcap +((newcap-oldcap)/5);
   do {
     draw();
   } while( u8g.nextPage() ); // fin du picture loop
- delay(10);    // a modifier plus tard
+ // delay(10);    // on peut ici ralentir legerement l affichage si necessaire
     } //  fin du loop
   
 void draw(void) {   //   fonction d affichage
